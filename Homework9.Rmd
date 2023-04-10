@@ -1,0 +1,84 @@
+---
+title: "HW9"
+author: "Seana Perkins"
+date: "2023-04-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Part one: Data tidying
+
+The avenger data consists of ten columns for each avenger called Death[1-5] to Return[1-5]
+
+Get the data into a format where the five columns for Death[1-5] are replaced by two columnes: Time, and Death. Time should be a number between 1 and 5 (look into the function `parse_number`); Death is a categorical variables with values "yes", "no" and "". Call the result `deaths`. 
+
+Similarly, deal with the returns of characters.
+
+```{r}
+
+library(tidyverse)
+av = read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/avengers/avengers.csv", stringsAsFactors = FALSE)
+names(av)
+av0 = av %>% filter(Name.Alias != "")
+av1 = av0 %>% gather(key = time, value = death, c(11, 13, 15, 17, 19)) %>% 
+  select(Name.Alias, time, death) %>%
+  mutate(time = parse_number(time))
+av2 = av0 %>% gather(key = time, value = return, c(12, 14, 16, 18, 20)) %>% 
+  select(Name.Alias, time, return) %>%
+  mutate(time = parse_number(time))
+av.neat = left_join(av1, av2, by = c("Name.Alias", "time")) 
+av0 = av0 %>% filter(Name.Alias != "Vance Astrovik")
+av1 = av0 %>% gather(key = time, value = death, c(11, 13, 15, 17, 19)) %>% 
+  select(Name.Alias, time, death) %>%
+  mutate(time = parse_number(time))
+av2 = av0 %>% gather(key = time, value = return, c(12, 14, 16, 18, 20)) %>% 
+  select(Name.Alias, time, return) %>%
+  mutate(time = parse_number(time))
+av.neat = left_join(av1, av2, by = c("Name.Alias", "time"))
+```
+
+``` {r}
+
+av.neat %>% group_by(time) %>% summarise(total.num = n(),
+                                         real.death = sum(death == "YES"), 
+                                         fake.death = sum(death == "NO"), 
+                                         missing = sum(death == ""))
+av.neat %>% filter(time == 1, death == "YES") %>% 
+  summarise(total.num = n(),
+            real.return = sum(return == "YES"), 
+            fake.return = sum(return == "NO"), 
+            missing = sum(return == ""))
+```
+
+## Part two: Validation
+
+Each team member picks one of the statements in the FiveThirtyEight analysis and fact checks it based on the data. Use dplyr functionality whenever possible.
+
+Upload your answers and the code to the repository. Discuss and refine answers as a team.
+
+Seana - "Out of 173 listed Avengers, my analysis found that 69 had died at least one time after they joined the team." *This quote appears to be incorrect, as the below summary statistics say that there were 82 deaths. 
+
+```{r}
+
+av.neat$death <- as.factor(av.neat$death)
+summary(av.neat$death)
+
+```
+
+
+Shelby - 
+
+Greg - 
+
+## Submission for HW9
+
+In Canvas, submit an RMarkdown file (and the knitted html document) with:
+
+1. the names of all team members that worked on the document.
+2. a link to the github repo you were working in.
+3. code and answers to all of the questions.
+4. you can upload the data file, but you don’t have to
