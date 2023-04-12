@@ -70,7 +70,16 @@ summary(av.neat$death)
 ```
 
 
-Shelby - 
+Shelby - "Jocasta — an android based on Janet van Dyne and built by Ultron — who has been destroyed five times and then recovered five times." 
+
+  This is true, Josasta is the only character to have died 5 times and also returned. 
+
+
+
+```{r}
+av.neat %>% filter(time=="5", death=="YES")
+
+```
 
 Greg - 
 
