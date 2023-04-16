@@ -1,6 +1,6 @@
 ---
 title: "HW9"
-author: "Seana Perkins"
+author: "Seana Perkins, Shelby Nechkash, Greg Carter"
 date: "2023-04-10"
 output: html_document
 ---
