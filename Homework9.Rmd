@@ -81,7 +81,21 @@ av.neat %>% filter(time=="5", death=="YES")
 
 ```
 
-Greg - 
+Greg - "Of the nine avengers we see on screen - Iron Man, The Hulk, Captain America, Thor, Hawkeye, Black Widow,
+Scarlet Witch, Quicksilver, and The Vision - every single one of them has died at least once in thcourse of their time
+Avenging in the comics."
+
+  This is likely true, but the dataset doesn't seem to contain The Vision. In the movies we see him die, so given that
+    every other Avenger mentioned is shown to have tied by the database, We can say with a degree of certainty that
+    this is true.
+
+```{r}
+av.neat %>% filter(Name.Alias %in% c("Anthony Edward \"Tony\" Stark", "Robert Bruce Banner", "Steven Rogers",
+                                     "Thor Odinson", "Clinton Francis Barton", "Natalia Alianovna Romanova",
+                                     "Wanda Maximoff", "Pietro Maximoff", "The Vision"), time == 1)
+```
+
+
 
 ## Submission for HW9
 
